@@ -8,7 +8,7 @@ import           Prelude hiding (lookup)
 
 
 -- spk -----------------------------------------------------------------------
-import           Data.Space.BCRS (BCRS (BCRS))
+import           Data.Space.ICRS (ICRS (ICRS))
 import           Data.SPICE.Kernel (Kernel, lookup)
 import           Data.Time.Clock.Atomic (TT (TT), TDB (TDB))
 import qualified Data.Time.Clock.Atomic as T
@@ -27,7 +27,7 @@ ttToTDB kernel (TT s) = TDB (dttToTDB kernel s)
 ------------------------------------------------------------------------------
 dtdbToTT :: Kernel -> Double -> Double
 dtdbToTT kernel s = case lookup 1000000001 s kernel of
-    Just (center, BCRS d _ _, _) | center == 1000000000 -> s + d
+    Just (center, ICRS d _ _, _) | center == 1000000000 -> s + d
     _ -> let TT tt = T.tdbToTT (TDB s) in tt
 
 

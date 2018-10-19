@@ -71,7 +71,7 @@ import           Data.Array.Repa.Repr.ForeignPtr (fromForeignPtr)
 
 
 -- spk -----------------------------------------------------------------------
-import           Data.Space.BCRS (BCRS (BCRS))
+import           Data.Space.ICRS (ICRS (ICRS))
 
 
 -- vector --------------------------------------------------------------------
@@ -101,7 +101,7 @@ load path = do
 
 
 ------------------------------------------------------------------------------
-lookup :: Word32 -> Double -> Kernel -> Maybe (Word32, BCRS, BCRS)
+lookup :: Word32 -> Double -> Kernel -> Maybe (Word32, ICRS, ICRS)
 lookup body time = fmap locate . find go . segments
   where
     go segment = time >= startTime segment && time < endTime segment
@@ -280,17 +280,17 @@ getFloat64host = castWord64ToDouble <$> getWord64host
 
 
 ------------------------------------------------------------------------------
-getPositionAndVelocity :: Array -> Double -> (BCRS, BCRS)
+getPositionAndVelocity :: Array -> Double -> (ICRS, ICRS)
 getPositionAndVelocity (Array i v elems) time
     | index < 0 || index > n = error "getPosition: time index out of bounds"
     | ncomponents == 3 = runEval $ do
         (position, velocity) <- liftA2 (,) result differential
         let [px, py, pz] = R.toList position
         let [vx, vy, vz] = R.toList velocity
-        pure (BCRS px py pz, BCRS vx vy vz)
+        pure (ICRS px py pz, ICRS vx vy vz)
     | ncomponents == 6 = runEval $ do
         [px, py, pz, vx, vy, vz] <- R.toList <$> result
-        pure (BCRS px py pz, BCRS vx vy vz)
+        pure (ICRS px py pz, ICRS vx vy vz)
     | otherwise = error "getPosition: bad array, ncomponents != (3 || 6)"
   where
     Z :. ncomponents :. n :. ncoefficients = R.extent elems

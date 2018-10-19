@@ -32,11 +32,16 @@ import qualified Data.Time.LocalTime as T
 
 
 ------------------------------------------------------------------------------
+type Seconds = Double
+
+
+------------------------------------------------------------------------------
 type ET = TDB
 
 
 ------------------------------------------------------------------------------
-newtype TAI = TAI Double
+-- | International Atomic Time, as seconds since 1 January 2000, 12:00 'TAI'
+newtype TAI = TAI Seconds
   deriving
     ( Eq, Ord, Read, Show, Enum, Num, Real, Fractional, Floating, RealFrac
     , RealFloat, Generic, Typeable
@@ -44,7 +49,8 @@ newtype TAI = TAI Double
 
 
 ------------------------------------------------------------------------------
-newtype TCB = TCB Double
+-- | Barycentric Coordinate Time, as seconds since 1 January 2000, 12:00 'TCB'
+newtype TCB = TCB Seconds
   deriving
     ( Eq, Ord, Read, Show, Enum, Num, Real, Fractional, Floating, RealFrac
     , RealFloat, Generic, Typeable
@@ -52,7 +58,8 @@ newtype TCB = TCB Double
 
 
 ------------------------------------------------------------------------------
-newtype TCG = TCG Double
+-- | Geocentric Coordinate Time, as seconds since 1 January 2000, 12:00 'TCG'
+newtype TCG = TCG Seconds
   deriving
     ( Eq, Ord, Read, Show, Enum, Num, Real, Fractional, Floating, RealFrac
     , RealFloat, Generic, Typeable
@@ -60,7 +67,8 @@ newtype TCG = TCG Double
 
 
 ------------------------------------------------------------------------------
-newtype TDB = TDB Double
+-- | Barycentric Dynamical Time, as seconds since 1 January 2000, 12:00 'TDB'
+newtype TDB = TDB Seconds
   deriving
     ( Eq, Ord, Read, Show, Enum, Num, Real, Fractional, Floating, RealFrac
     , RealFloat, Generic, Typeable
@@ -72,7 +80,8 @@ type TDT = TT
 
 
 ------------------------------------------------------------------------------
-newtype TT = TT Double
+-- | Terrestrial Time, as seconds since 1 January 2000, 12:00 'TT' ('j2000')
+newtype TT = TT Seconds
   deriving
     ( Eq, Ord, Read, Show, Enum, Num, Real, Fractional, Floating, RealFrac
     , RealFloat, Generic, Typeable
@@ -80,7 +89,8 @@ newtype TT = TT Double
 
 
 ------------------------------------------------------------------------------
-newtype JD a = JD a
+-- | Julian Date, as Julian days since 1 January 4713 BC, 12:00 @scale@
+newtype JD scale = JD scale
   deriving
     ( Eq, Ord, Read, Show, Enum, Num, Real, Fractional, Floating, RealFrac
     , RealFloat, Generic, Typeable
@@ -346,11 +356,13 @@ geocentricToGeocentric _ = fromTT . toTT
 
 
 ------------------------------------------------------------------------------
+-- | Approximate conversion between 'TT' and 'TDB'
 ttToTDB :: TT -> TDB
 ttToTDB (TT tt) = TDB $ tt + tdbDelta tt
 
 
 ------------------------------------------------------------------------------
+-- | Approximate conversion between 'TDB' and 'TT'
 tdbToTT :: TDB -> TT
 tdbToTT (TDB tdb) = TT $ invert (\tt -> tt + tdbDelta tt) tdb
 
@@ -409,6 +421,7 @@ taiToUTC = fromJust . T.taiToUTCTime (Just . maybe 0 id . lst)
 
 
 ------------------------------------------------------------------------------
+-- | 1 January 2000, 12:00 'TT'
 j2000 :: JD TT
 j2000 = toJD 0
 

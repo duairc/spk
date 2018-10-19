@@ -13,7 +13,7 @@ cabal-version:       >=1.10
 
 library
   exposed-modules:
-    Data.Space.BCRS
+    Data.Space.ICRS
     Data.SPICE
     Data.SPICE.Monad
     Data.Time.Clock.Atomic

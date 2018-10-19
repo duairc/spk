@@ -14,7 +14,7 @@ import           Prelude hiding (lookup)
 
 
 -- spk -----------------------------------------------------------------------
-import           Data.Space.BCRS (BCRS)
+import           Data.Space.ICRS (ICRS)
 import           Data.SPICE.Kernel (Kernel, lookup)
 import           Data.SPICE.Time (ttToTDB)
 import           Data.Time.Clock.Atomic (Time, TDB (TDB), toBarycentric)
@@ -56,7 +56,7 @@ code Earth = 399
 
 
 ------------------------------------------------------------------------------
-locate :: Time t => Body -> t -> Kernel -> Maybe (BCRS, BCRS)
+locate :: Time t => Body -> t -> Kernel -> Maybe (ICRS, ICRS)
 locate body_ time kernel = go (code body_)
   where
     barycenter = code SolarSystemBarycenter

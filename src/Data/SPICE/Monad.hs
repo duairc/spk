@@ -46,7 +46,7 @@ import           Control.Monad.Trans.Reader (ReaderT (ReaderT), runReaderT)
 
 
 -- spk -----------------------------------------------------------------------
-import           Data.Space.BCRS (BCRS)
+import           Data.Space.ICRS (ICRS)
 import           Data.SPICE.Body (Body (..))
 import qualified Data.SPICE.Body as B
 import           Data.SPICE.Kernel (Kernel, comment, load)
@@ -117,5 +117,5 @@ loadSpiceT m path = liftI (load path) >>= runSpiceT m
 
 
 ------------------------------------------------------------------------------
-locate :: (Applicative m, Time t) => Body -> t -> SpiceT m (BCRS, BCRS)
+locate :: (Applicative m, Time t) => Body -> t -> SpiceT m (ICRS, ICRS)
 locate body_ time = SpiceT $ ReaderT $ MaybeT . pure . B.locate body_ time
