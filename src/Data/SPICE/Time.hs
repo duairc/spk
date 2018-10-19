@@ -10,8 +10,8 @@ import           Prelude hiding (lookup)
 -- spk -----------------------------------------------------------------------
 import           Data.Space.ICRS (ICRS (ICRS))
 import           Data.SPICE.Kernel (Kernel, lookup)
-import           Data.Time.Clock.Atomic (TT (TT), TDB (TDB))
-import qualified Data.Time.Clock.Atomic as T
+import           Data.Time.Clock.Uniform (TT (TT), TDB (TDB))
+import qualified Data.Time.Clock.Uniform as T
 
 
 ------------------------------------------------------------------------------

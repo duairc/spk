@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
-module Data.Time.Clock.Atomic
+module Data.Time.Clock.Uniform
     ( ET, TAI (TAI), TCB (TCB), TCG (TCG), TDB (TDB), TDT, TT (TT)
     , JD (JD), j2000, fromJD, toJD
     , Geocentric (fromTT, toTT)
@@ -180,12 +180,6 @@ instance Geocentric TT where
 
 
 ------------------------------------------------------------------------------
-instance Geocentric T.UniversalTime where
-    fromTT = utcToUT . fromTT
-    toTT = toTT . utToUTC
-
-
-------------------------------------------------------------------------------
 instance Geocentric T.UTCTime where
     fromTT = taiToUTC . fromTT
     toTT = toTT . utcToTAI
@@ -269,14 +263,6 @@ instance Time TDB where
 
 ------------------------------------------------------------------------------
 instance Time TT where
-    fromBarycentric = geocentricFromBarycentric
-    toBarycentric = geocentricToBarycentric
-    fromGeocentric = geocentricFromGeocentric
-    toGeocentric = geocentricToGeocentric
-
-
-------------------------------------------------------------------------------
-instance Time T.UniversalTime where
     fromBarycentric = geocentricFromBarycentric
     toBarycentric = geocentricToBarycentric
     fromGeocentric = geocentricFromGeocentric
@@ -390,24 +376,6 @@ invert f i = delta i (\di -> go (i - di))
             di = i - i'
 
     delta i' step = step $ f i' - i'
-
-
-------------------------------------------------------------------------------
-utcToUT :: T.UTCTime -> T.UniversalTime
-utcToUT (T.UTCTime day@(T.ModifiedJulianDay mjd) time) =
-    T.ModJulianDate $ fromInteger mjd + toRational (time / len)
-  where
-    len = maybe 86400 id (T.utcDayLength lst day)
-
-
-------------------------------------------------------------------------------
-utToUTC :: T.UniversalTime -> T.UTCTime
-utToUTC (T.ModJulianDate jd) = T.UTCTime day time
-  where
-    (mjd, fraction) = divMod' jd 1
-    day = T.ModifiedJulianDay mjd
-    len = maybe 86400 id (T.utcDayLength lst day)
-    time = fromRational fraction * len
 
 
 ------------------------------------------------------------------------------

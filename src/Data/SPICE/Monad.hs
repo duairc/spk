@@ -50,7 +50,7 @@ import           Data.Space.ICRS (ICRS)
 import           Data.SPICE.Body (Body (..))
 import qualified Data.SPICE.Body as B
 import           Data.SPICE.Kernel (Kernel, comment, load)
-import           Data.Time.Clock.Atomic (Time)
+import           Data.Time.Clock.Uniform (Time)
 
 
 ------------------------------------------------------------------------------

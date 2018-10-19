@@ -16,7 +16,7 @@ library
     Data.Space.ICRS
     Data.SPICE
     Data.SPICE.Monad
-    Data.Time.Clock.Atomic
+    Data.Time.Clock.Uniform
 
   other-modules:
     Data.SPICE.Body

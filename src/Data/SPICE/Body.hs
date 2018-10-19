@@ -17,7 +17,7 @@ import           Prelude hiding (lookup)
 import           Data.Space.ICRS (ICRS)
 import           Data.SPICE.Kernel (Kernel, lookup)
 import           Data.SPICE.Time (ttToTDB)
-import           Data.Time.Clock.Atomic (Time, TDB (TDB), toBarycentric)
+import           Data.Time.Clock.Uniform (Time, TDB (TDB), toBarycentric)
 
 
 ------------------------------------------------------------------------------
