@@ -1,0 +1,42 @@
+name:                spk
+version:             0.1.0.0
+synopsis:            Read JPL ephemeris files (SPICE kernels)
+homepage:            https://github.com/duairc/spk
+license:             MPL-2.0
+license-file:        LICENSE
+author:              Shane
+maintainer:          me@shane.sh
+category:            Astronomy, Science
+build-type:          Simple
+extra-source-files:  CHANGELOG.md
+cabal-version:       >=1.10
+
+library
+  exposed-modules:
+    Data.Space.BCRS
+    Data.SPICE
+    Data.SPICE.Monad
+    Data.Time.Clock.Atomic
+
+  other-modules:
+    Data.SPICE.Body
+    Data.SPICE.Kernel
+    Data.SPICE.Time
+
+  build-depends:
+    base < 5,
+    bytestring,
+    cereal,
+    cpu,
+    derive-storable,
+    layers >= 1,
+    leapseconds-announced,
+    mmap,
+    parallel,
+    repa,
+    time,
+    transformers,
+    vector
+
+  hs-source-dirs:      src
+  default-language:    Haskell2010
